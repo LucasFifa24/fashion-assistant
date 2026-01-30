@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" href="icons/app-icon.png"> <!-- For Home Screen -->
+</head>
+<body>
+    <header>
+        <h1>Fashion Assistant</h1>
+        <button id="settingsBtn">Settings</button>
+    </header>
+
+    <main>
+        <section id="uploadSection">
+            <label for="gender">Select Gender:</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <input type="file" id="imageInput" accept="image/*">
+            <button id="analyzeBtn">Analyze Outfit</button>
+        </section>
+
+        <section id="resultsSection" class="hidden">
+            <p id="mainDescription"></p>
+
+            <h3>Outfit Suggestions</h3>
+            <ul id="suggestionsList"></ul>
+
+            <h3>Item Details</h3>
+            <ul id="itemDetailsList"></ul>
+        </section>
+
+        <section id="followUpSection" class="hidden">
+            <input type="text" id="followUpInput" placeholder="Ask a follow-up question">
+            <button id="followUpBtn">Send</button>
+            <p id="followUpResponse"></p>
+        </section>
+    </main>
+
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="closeBtn">&times;</span>
+            <h3>Settings</h3>
+            <label for="modalGender">Gender:</label>
+            <select id="modalGender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
