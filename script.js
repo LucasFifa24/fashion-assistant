@@ -76,30 +76,38 @@ analyzeBtn.addEventListener('click', async () => {
     if (!imageInput.files[0]) return alert("Please upload an image.");
 
     const file = imageInput.files[0];
-    mainDescription.textContent = "Analyzing...";
 
-    // 1. Detect clothing
+    // Detect clothing fresh
     const detected = await analyzeClothing(file);
     const { type, color, style } = detected;
+
+    // Normalize color
+    const colorMap = { "light blue":"blue", "dark blue":"blue", "light red":"red", "dark red":"red" };
+    const normalizedColor = colorMap[color.toLowerCase()] || color.toLowerCase();
+
+    // Fetch new recommendations based on detected info
+    const recommendations = await getRecommendations(type, normalizedColor, style, genderSelect.value);
+
+    // Clear previous results
+    suggestionsList.innerHTML = '';
+    itemDetailsList.innerHTML = '';
+
+    // Populate results
     mainDescription.textContent = `Detected: ${type}, Color: ${color}, Style: ${style}, Gender: ${genderSelect.value}`;
 
-    // 2. Fetch image recommendations
-    const recommendations = await getRecommendations(type, color);
-
-    // 3. Populate suggestions
-    suggestionsList.innerHTML = '';
     recommendations.forEach(s => {
         const li = document.createElement('li');
         li.innerHTML = `<img src="${s.image}" width="50"> ${s.item} - ${s.reason}`;
         li.style.cursor = "pointer";
-
-        // Clickable to expand more outfit ideas
-        li.addEventListener('click', () => {
-            alert(`Here you could show more items that go with ${s.item} (placeholder)`);
-        });
-
+        li.addEventListener('click', () => alert(`More items for ${s.item}`));
         suggestionsList.appendChild(li);
     });
+
+    itemDetailsList.innerHTML = `<li>${type} - Color: ${color} - Style: ${style}</li>`;
+
+    resultsSection.classList.remove('hidden');
+    followUpSection.classList.remove('hidden');
+});
 
     // 4. Populate item details
     itemDetailsList.innerHTML = '';
