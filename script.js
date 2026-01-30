@@ -14,7 +14,7 @@ const closeBtn = document.querySelector('.closeBtn');
 const modalGender = document.getElementById('modalGender');
 const genderSelect = document.getElementById('gender');
 
-// Placeholder data function
+// Placeholder AI data function
 function getPlaceholderRecommendations() {
     return {
         description: "You are wearing a casual blue shirt.",
@@ -31,14 +31,15 @@ function getPlaceholderRecommendations() {
     };
 }
 
+// Analyze button
 analyzeBtn.addEventListener('click', () => {
     if (!imageInput.files[0]) return alert("Please upload an image.");
-    
+
     const gender = genderSelect.value;
     const data = getPlaceholderRecommendations();
-    
+
     mainDescription.textContent = data.description + ` Gender: ${gender}`;
-    
+
     suggestionsList.innerHTML = '';
     data.suggestions.forEach(s => {
         const li = document.createElement('li');
@@ -61,6 +62,7 @@ analyzeBtn.addEventListener('click', () => {
     followUpSection.classList.remove('hidden');
 });
 
+// Follow-up question
 followUpBtn.addEventListener('click', () => {
     const question = followUpInput.value.trim();
     if (!question) return;
@@ -68,8 +70,22 @@ followUpBtn.addEventListener('click', () => {
 });
 
 // Settings modal
-settingsBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
-closeBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
+settingsBtn.addEventListener('click', () => {
+    settingsModal.classList.remove('hidden'); // show modal
+});
+
+closeBtn.addEventListener('click', () => {
+    settingsModal.classList.add('hidden'); // hide modal
+});
+
+// Close modal by clicking outside modal content
+settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) {
+        settingsModal.classList.add('hidden');
+    }
+});
+
+// Sync gender between modal and main screen
 modalGender.addEventListener('change', () => {
     genderSelect.value = modalGender.value;
 });
